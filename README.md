@@ -57,13 +57,12 @@ Below is how data flows through the system when a user calls the API:
 
 ### 1️⃣ Prerequisites
 - Java 21+
-- Spring Boot 4.0.0
-- Maven 3.8+
+- Spring Boot 3.3.5
 - Internet connection (for GitHub API access)
 
 ### 2️⃣ Clone the Repository
 ```bash
-git clone https://github.com/your-username/github-score.git
+git clone git@github.com:sanepr/githubscore.git
 cd github-score
 ```
 
@@ -84,29 +83,15 @@ The app runs at:
 `GET /api/repositories`
 
 ### **Parameters**
-| Name | Type | Required | Description |
-|------|------|-----------|-------------|
-| `language` | String | ✅ | Filter repositories by language |
-| `earliestCreatedDate` | String (ISO date) | ✅ | Include repos created after this date |
-| `page` | Integer | ❌ | Page number |
-| `size` | Integer | ❌ | Page size |
 
 ### **Example Request**
 ```bash
-GET http://localhost:8080/api/repositories?language=java&earliestCreatedDate=2024-01-01
+GET http://localhost:8080
 ```
 
 ### **Example Response**
 ```json
 [
-  {
-    "name": "spring-framework",
-    "owner": "spring-projects",
-    "stars": 64000,
-    "forks": 38000,
-    "lastUpdated": "2025-10-28T10:00:00Z",
-    "popularityScore": 84500.2
-  }
 ]
 ```
 
@@ -128,26 +113,26 @@ Includes:
 
 ## 🧰 Tech Stack
 
-| Component | Technology |
-|------------|-------------|
-| Language | Java 17 |
-| Framework | Spring Boot 3.x |
-| Build Tool | Maven |
-| HTTP Client | WebClient / RestTemplate |
-| Testing | JUnit 5, Mockito |
-| API Docs | Swagger / Springdoc OpenAPI (optional) |
+| Component | Technology                            |
+|------------|---------------------------------------|
+| Language | Java 21                               |
+| Framework | Spring Boot 3.x                       |
+| Build Tool | Maven                                 |
+| HTTP Client | WebClient / RestTemplate / H2         |
+| Testing | JUnit 5, Mockito                      |
+| API Docs | Swagger / Springdoc OpenAPI |
 
 ---
 
 ## 🏗️ Future Enhancements
-- Add caching for GitHub responses
 - Implement configurable scoring weights
 - Handle GitHub API rate limits gracefully
-- Add Swagger UI documentation
+- Add database migration support
+- Add persistence layer for database storage
 - Dockerize the application for deployment
 
 ---
 
 ## 👤 Author
-**[Your Name]**  
-Backend Developer | Clean Architecture Enthusiast  
+**[Ashish Ranjan]**  
+Backend Developer
