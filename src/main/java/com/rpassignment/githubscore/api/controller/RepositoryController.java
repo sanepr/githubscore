@@ -36,7 +36,7 @@ public class RepositoryController {
     public List<RepositoryResponse> getRepositories(
             @RequestParam String query,
             @RequestParam String language,
-            @RequestParam
+            @RequestParam(defaultValue = "2025-01-01")
             @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Date must be in YYYY-MM-DD format")
             String earliestCreatedDate,
             @RequestParam(defaultValue = "1") @Min(1) Integer page,

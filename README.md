@@ -73,7 +73,7 @@ cd github-score
 ```
 
 The app runs at:  
-👉 `http://localhost:8080`
+👉 `http://localhost:8080/swagger-ui/index.html`
 
 ---
 
@@ -86,15 +86,35 @@ The app runs at:
 
 ### **Example Request**
 ```bash
-GET http://localhost:8080
+GET http://127.0.0.1:8080/api/repositories?query=validation&language=c++&earliestCreatedDate=2022-01-01&page=1
 ```
 
 ### **Example Response**
 ```json
 [
+  {
+    "name": "unbound",
+    "owner": "NLnetLabs",
+    "stars": 3945,
+    "forks": 410,
+    "lastUpdated": "2025-11-01",
+    "popularityScore": 2115.5
+  }
 ]
 ```
 
+---
+## ⚙️ Dockerization
+
+### **Build Docker Image**
+```bash
+docker build -t githubscore:latest .
+```
+### **Run Docker Container**
+```bash
+docker run -p 8080:8080 githubscore:latest
+docker run -d -p 8080:8080  --name githubscore-app githubscore:latest
+```
 ---
 
 ## 🧪 Testing
@@ -113,13 +133,13 @@ Includes:
 
 ## 🧰 Tech Stack
 
-| Component | Technology                            |
-|------------|---------------------------------------|
-| Language | Java 21                               |
-| Framework | Spring Boot 3.x                       |
-| Build Tool | Maven                                 |
-| HTTP Client | WebClient / RestTemplate / H2         |
-| Testing | JUnit 5, Mockito                      |
+| Component | Technology                     |
+|------------|--------------------------------|
+| Language | Java 21                        |
+| Framework | Spring Boot 3.x                |
+| Build Tool | Maven                          |
+| HTTP Client | WebClient / RestTemplate       |
+| Testing | JUnit 5, Mockito               |
 | API Docs | Swagger / Springdoc OpenAPI |
 
 ---
@@ -129,10 +149,11 @@ Includes:
 - Handle GitHub API rate limits gracefully
 - Add database migration support
 - Add persistence layer for database storage
-- Dockerize the application for deployment
+- Extend dockerization support database integration
+- Implement caching for frequent queries
 
 ---
 
 ## 👤 Author
-**[Ashish Ranjan]**  
+**Ashish Ranjan**  
 Backend Developer
