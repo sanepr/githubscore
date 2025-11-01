@@ -1,0 +1,27 @@
+<configuration>
+
+    <!-- Use the console pattern from application.properties (logging.pattern.console) -->
+    <springProperty scope="context" name="LOG_PATTERN" source="logging.pattern.console" />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN:-%d{yyyy-MM-dd HH:mm:ss} - %level - %logger{36} - %msg%n}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Default root level can be overridden via 'logging.level.root' property -->
+    <root level="${LOGGING_LEVEL_ROOT:-INFO}">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <!-- Application package logger: default DEBUG in 'local' profile (see below) -->
+    <logger name="com.rpassignment" level="DEBUG" />
+
+    <!-- Additional config for the 'local' profile (can be used to enable more verbose logging) -->
+    <springProfile name="local">
+        <logger name="org.springframework" level="INFO" />
+        <logger name="com.rpassignment" level="DEBUG" />
+    </springProfile>
+
+</configuration>
+
