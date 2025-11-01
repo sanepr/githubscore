@@ -68,7 +68,6 @@ public class GitHubExceptionMapper {
             return new GitHubSearchException(mapped.message(), mapped.status());
         }
 
-        // fallback for unmapped
         String message = String.format("Unexpected error: %s - %s", status, details);
         return new GitHubSearchException(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

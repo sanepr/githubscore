@@ -15,7 +15,7 @@ class RepositoryMapperTest {
     void testRequestMapper() {
         // given
         LocalDate updated = LocalDate.of(2025, 10, 1);
-        Repository repo = new Repository("repo-name", "owner-login", 123, 45, updated);
+        Repository repo = new Repository(8247368L , "repo-name", "owner-login", 123, 45, updated);
         repo.setPopularityScore(99.5);
 
         // when

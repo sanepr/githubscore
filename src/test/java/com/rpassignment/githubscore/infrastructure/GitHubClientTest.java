@@ -60,7 +60,7 @@ class GitHubClientTest {
         )).thenReturn(response);
 
         Map<String, Object> result = gitHubClient
-                .searchRepositories("language:java", "stars",
+                .searchRepositories("spring" ,"java", "2024-11-01", "stars",
                         "desc", 1, 10, false);
 
         assertThat(result).containsKey("total_count");
@@ -79,7 +79,7 @@ class GitHubClientTest {
         )).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Bad Request"));
 
         assertThatThrownBy(() ->
-                gitHubClient.searchRepositories("language:java", "stars",
+                gitHubClient.searchRepositories("spring" ,"java", "2024-11-01", "stars",
                         "desc", 1, 10, false)
         )
                 .isInstanceOf(RuntimeException.class)
@@ -96,7 +96,7 @@ class GitHubClientTest {
         )).thenThrow(new HttpServerErrorException(HttpStatus.SERVICE_UNAVAILABLE));
 
         assertThatThrownBy(() ->
-                gitHubClient.searchRepositories("language:java", "stars",
+                gitHubClient.searchRepositories("spring" ,"java", "2024-11-01", "stars",
                         "desc", 1, 10, false)
         ).isInstanceOf(RuntimeException.class);
     }
@@ -104,19 +104,19 @@ class GitHubClientTest {
     @Test
     void testSearchRepositoriesInvalidParametersThrowsException() {
         assertThatThrownBy(() ->
-                gitHubClient.searchRepositories("", "stars", "desc",
+                gitHubClient.searchRepositories("" ,"java", "2024-11-01", "stars", "desc",
                         1, 10, false)
         ).isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("Bad request to GitHub API (400)");
 
         assertThatThrownBy(() ->
-                gitHubClient.searchRepositories("language:java", "stars",
+                gitHubClient.searchRepositories("" ,"java", "2024-11-01", "stars",
                         "desc", 1, 200, false)
         ).isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("Bad request to GitHub API (400)");
 
         assertThatThrownBy(() ->
-                gitHubClient.searchRepositories("language:java", "stars",
+                gitHubClient.searchRepositories("spring" ,"java", "2024-11-01", "stars",
                         "desc", 0, 10, false)
         ).isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("Bad request to GitHub API (400)");

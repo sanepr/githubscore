@@ -21,8 +21,8 @@ class RepositoryScoringServiceTest {
 
     private static Stream<TestCase> repositoryTestCases() {
         return Stream.of(
-                new TestCase("Repo1", "owner1", 50, 20, "2025-01-01T10:00:00Z"),
-                new TestCase("Repo2", "owner2", 100, 50, "2024-06-01T12:30:00Z")
+                new TestCase(8247368L, "Repo1", "owner1", 50, 20, "2025-01-01T10:00:00Z"),
+                new TestCase(8247369L, "Repo2", "owner2", 100, 50, "2024-06-01T12:30:00Z")
         );
     }
 
@@ -34,6 +34,7 @@ class RepositoryScoringServiceTest {
         Map<String, Object> mockResponse = Map.of(
                 "items", List.of(
                         Map.of(
+                                    "id", testCase.id,
                                 "name", testCase.name,
                                 "owner", Map.of("login", testCase.owner),
                                 "stargazers_count", testCase.stars,
@@ -44,11 +45,12 @@ class RepositoryScoringServiceTest {
         );
 
         Mockito.when(mockClient.searchRepositories(
-                any(), any(), any(), anyInt(), anyInt(), anyBoolean()
+                any(), any(), any(), any(), any(), anyInt(), anyInt(), anyBoolean()
         )).thenReturn(mockResponse);
         RepositoryScoringService service = new RepositoryScoringService(mockClient);
 
         RepositoryRequest request = RepositoryRequest.builder()
+                .query("spring")
                 .language("java")
                 .page(1)
                 .size(30)
@@ -69,6 +71,7 @@ class RepositoryScoringServiceTest {
         assertEquals(testCase.forks, repoResponse.getForks());
 
         Repository repo = new Repository(
+                testCase.id,
                 testCase.name,
                 testCase.owner,
                 testCase.stars,
@@ -80,13 +83,15 @@ class RepositoryScoringServiceTest {
     }
 
     private static class TestCase {
+        Long id;
         String name;
         String owner;
         int stars;
         int forks;
         String updatedAt;
 
-        public TestCase(String name, String owner, int stars, int forks, String updatedAt) {
+        public TestCase(Long id, String name, String owner, int stars, int forks, String updatedAt) {
+            this.id = id;
             this.name = name;
             this.owner = owner;
             this.stars = stars;

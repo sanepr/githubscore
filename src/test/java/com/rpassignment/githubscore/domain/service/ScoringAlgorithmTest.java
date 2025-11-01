@@ -15,10 +15,10 @@ class ScoringAlgorithmTest {
 
     static Stream<TestCase> repositoryTestCases() {
         return Stream.of(
-                new TestCase("RecentRepo", "owner1", 50, 20, LocalDate.now(), 25.0 + 6.0 + 20.0),
-                new TestCase("OldRepo", "owner2", 100, 50, LocalDate.now().minusYears(2), 50.0 + 15.0 + 0.0),
-                new TestCase("ZeroRepo", "owner3", 0, 0, LocalDate.now(), 0.0 + 0.0 + 20.0),
-                new TestCase("FutureRepo", "owner4", 10, 5, LocalDate.now().plusDays(10), 5.0 + 1.5 + 20.547945)
+                new TestCase(8247368L , "RecentRepo", "owner1", 50, 20, LocalDate.now(), 25.0 + 6.0 + 20.0),
+                new TestCase(8247369L, "OldRepo", "owner2", 100, 50, LocalDate.now().minusYears(2), 50.0 + 15.0 + 0.0),
+                new TestCase(8247370L, "ZeroRepo", "owner3", 0, 0, LocalDate.now(), 0.0 + 0.0 + 20.0),
+                new TestCase(8247371L, "FutureRepo", "owner4", 10, 5, LocalDate.now().plusDays(10), 5.0 + 1.5 + 20.547945)
         );
     }
 
@@ -26,6 +26,7 @@ class ScoringAlgorithmTest {
     @MethodSource("repositoryTestCases")
     void testCalculatePopularity(TestCase testCase) {
         Repository repo = new Repository(
+                testCase.id,
                 testCase.name,
                 testCase.owner,
                 testCase.stars,
@@ -39,6 +40,7 @@ class ScoringAlgorithmTest {
     }
 
     private static class TestCase {
+        Long id = 1L;
         String name;
         String owner;
         int stars;
@@ -47,6 +49,7 @@ class ScoringAlgorithmTest {
         double expectedPopularity;
 
         public TestCase(
+                Long id,
                 String name,
                 String owner,
                 int stars,
@@ -54,6 +57,7 @@ class ScoringAlgorithmTest {
                 LocalDate lastUpdated,
                 double expectedPopularity
         ) {
+            this.id = id;
             this.name = name;
             this.owner = owner;
             this.stars = stars;

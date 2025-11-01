@@ -49,6 +49,8 @@ public class GitHubClient {
     )
     public Map<String, Object> searchRepositories(
             String query,
+            String language,
+            String earliestCreatedDate,
             String sort,
             String order,
             int page,
@@ -57,7 +59,7 @@ public class GitHubClient {
     ) {
         validateParameters(query, size, page);
 
-        String url = buildSearchUrl(query, sort, order, size, page);
+        String url = buildSearchUrl(query, language, earliestCreatedDate, sort, order, size, page);
         HttpHeaders headers = buildHeaders(textMatch);
 
         try {
@@ -65,7 +67,8 @@ public class GitHubClient {
                     url,
                     HttpMethod.GET,
                     new HttpEntity<>(headers),
-                    new ParameterizedTypeReference<>() {}
+                    new ParameterizedTypeReference<>() {
+                    }
             );
 
             if (response.getStatusCode() == HttpStatus.OK) {
@@ -105,17 +108,48 @@ public class GitHubClient {
         return headers;
     }
 
-    private String buildSearchUrl(String query, String sort, String order, int perPage, int page) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(githubApiUrl)
-                .queryParam("q", query)
+    private String buildSearchUrl(
+            String query,
+            String language,
+            String earliestCreatedDate,
+            String sort,
+            String order,
+            int perPage,
+            int page
+    ) {
+        StringBuilder qBuilder = new StringBuilder();
+
+        if (query != null && !query.isBlank()) {
+            qBuilder.append(query.trim());
+        }
+
+        if (language != null && !language.isBlank()) {
+            qBuilder.append("+language:").append(language.trim());
+        }
+
+        if (earliestCreatedDate != null && !earliestCreatedDate.isBlank()) {
+            qBuilder.append("+created:<").append(earliestCreatedDate.trim());
+        }
+
+        // Construct final URI with encoded=false to avoid double encoding
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(githubApiUrl)
+                .queryParam("q", qBuilder.toString())
                 .queryParam("per_page", perPage)
                 .queryParam("page", page);
 
-        Optional.ofNullable(sort).filter(s -> !s.isBlank()).ifPresent(s -> builder.queryParam("sort", s));
-        Optional.ofNullable(order).filter(o -> !o.isBlank()).ifPresent(o -> builder.queryParam("order", o));
+        Optional.ofNullable(sort)
+                .filter(s -> !s.isBlank())
+                .ifPresent(s -> builder.queryParam("sort", s));
 
-        return builder.toUriString();
+        Optional.ofNullable(order)
+                .filter(o -> !o.isBlank())
+                .ifPresent(o -> builder.queryParam("order", o));
+
+        // Build and encode only URI path, not query param
+        return builder.build(false).toUriString();  // <--- THIS is the key change
     }
+
 
     private void validateParameters(String query, int perPage, int page) {
         if (query == null || query.isBlank()) {

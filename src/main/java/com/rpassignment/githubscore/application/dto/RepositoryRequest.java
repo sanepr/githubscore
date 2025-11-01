@@ -6,6 +6,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class RepositoryRequest {
+    private String query;
     private String language;
     private String earliestCreatedDate;
     private Integer page;

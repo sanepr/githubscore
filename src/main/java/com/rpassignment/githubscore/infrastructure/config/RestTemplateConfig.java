@@ -22,7 +22,7 @@ public class RestTemplateConfig {
     private int readTimeout;
 
     @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
         log.info("Initializing RestTemplate with connectTimeout={}ms and readTimeout={}ms", connectTimeout, readTimeout);
 
         ClientHttpRequestInterceptor loggingInterceptor = (
@@ -34,7 +34,7 @@ public class RestTemplateConfig {
             return response;
         };
 
-        return builder
+        return restTemplateBuilder
                 .setConnectTimeout(Duration.ofMillis(connectTimeout))
                 .setReadTimeout(Duration.ofMillis(readTimeout))
                 .additionalInterceptors(List.of(loggingInterceptor))

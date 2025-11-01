@@ -37,12 +37,14 @@ class RepositoryControllerTest {
         when(mockService.getRepositories(any(RepositoryRequest.class)))
                 .thenReturn(List.of(mockResponse));
 
+        String query = "test";
         String language = "java";
         String earliestCreatedDate = "2023-01-01";
         int page = 1;
         int size = 30;
 
         List<RepositoryResponse> result = controller.getRepositories(
+                query,
                 language, earliestCreatedDate, 1, 30
         );
 
@@ -76,10 +78,12 @@ class RepositoryControllerTest {
         when(mockService.getRepositories(any(RepositoryRequest.class)))
                 .thenReturn(List.of(mockResponse));
 
+        String query = "test";
         String language = "python";
         String earliestCreatedDate = "2022-01-01";
 
-        List<RepositoryResponse> result = controller.getRepositories(language, earliestCreatedDate, 1, 30);
+        List<RepositoryResponse> result = controller.getRepositories(
+                query, language, earliestCreatedDate, 1, 30);
 
         assertNotNull(result);
         assertEquals(1, result.size());
