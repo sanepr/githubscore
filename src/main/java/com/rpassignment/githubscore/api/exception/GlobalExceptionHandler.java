@@ -26,8 +26,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        // Log full stack trace
-        log.error("Unhandled exception processing request: {} {}", request.getDescription(false), ex);
+        log.error("Unhandled exception processing request: {}", request.getDescription(false), ex);
 
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", Instant.now().toString());

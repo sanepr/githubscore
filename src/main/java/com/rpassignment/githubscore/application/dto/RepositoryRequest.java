@@ -1,7 +1,6 @@
 package com.rpassignment.githubscore.application.dto;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 @Builder

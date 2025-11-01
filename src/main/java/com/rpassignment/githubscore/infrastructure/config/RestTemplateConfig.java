@@ -28,9 +28,9 @@ public class RestTemplateConfig {
         ClientHttpRequestInterceptor loggingInterceptor = (
                 request, body, execution
         ) -> {
-            log.debug("➡️  [{}] Request to {}", request.getMethod(), request.getURI());
+            log.debug(" [{}] Request to {}", request.getMethod(), request.getURI());
             var response = execution.execute(request, body);
-            log.debug("⬅️  [{}] Response status: {}", request.getMethod(), response.getStatusCode());
+            log.debug("[{}] Response status: {}", request.getMethod(), response.getStatusCode());
             return response;
         };
 
