@@ -151,6 +151,7 @@ Includes:
 - Add persistence layer for database storage
 - Extend dockerization support database integration
 - Implement caching for frequent queries
+- Add multi-threading in case of large data sets fetching using executor service.
 
 ---
 
